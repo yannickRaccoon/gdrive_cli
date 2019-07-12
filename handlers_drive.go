@@ -12,10 +12,14 @@ import (
 	"gdrive_cli/auth"
 	"gdrive_cli/cli"
 	"gdrive_cli/drive"
+
+	"golang.org/x/oauth2/google"
+	gd "google.golang.org/api/drive/v3"
+
 )
 
-const ClientId = "367116221053-7n0vf5akeru7on6o2fjinrecpdoe99eg.apps.googleusercontent.com"
-const ClientSecret = "1qsNodXNaWq1mQuBjUjmvhoO"
+var ClientId = "367116221053-7n0vf5akeru7on6o2fjinrecpdoe99eg.apps.googleusercontent.com"
+var ClientSecret = "1qsNodXNaWq1mQuBjUjmvhoO"
 const TokenFilename = "token_v2.json"
 const DefaultCacheFileName = "file_cache.json"
 
@@ -345,6 +349,26 @@ func aboutExportHandler(ctx cli.Context) {
 }
 
 func getOauthClient(args cli.Arguments) (*http.Client, error) {
+	configDir := getConfigDir(args)
+
+	// IF there exists .gdrive/credentials.json, use it.
+	// Otherwise fall back to our default hardcoded project
+	b, err := ioutil.ReadFile(ConfigFilePath(configDir, "credentials.json"))
+	if err == nil {
+		gconfig,err := google.ConfigFromJSON(b, gd.DriveMetadataReadonlyScope)
+
+		// If above is present, ideally we could just use
+		// gconfig.Client(context.Background(), token
+		// see https://developers.google.com/drive/api/v3/quickstart/go
+		// but that will have to be in future version of the code
+			if err == nil {
+			ClientId = gconfig.ClientID
+			ClientSecret = gconfig.ClientSecret
+		}
+
+	}
+
+
 	if args.String("refreshToken") != "" && args.String("accessToken") != "" {
 		ExitF("Access token not needed when refresh token is provided")
 	}
@@ -357,7 +381,6 @@ func getOauthClient(args cli.Arguments) (*http.Client, error) {
 		return auth.NewAccessTokenClient(ClientId, ClientSecret, args.String("accessToken")), nil
 	}
 
-	configDir := getConfigDir(args)
 
 	if args.String("serviceAccount") != "" {
 		serviceAccountPath := ConfigFilePath(configDir, args.String("serviceAccount"))
@@ -369,6 +392,8 @@ func getOauthClient(args cli.Arguments) (*http.Client, error) {
 	}
 
 	tokenPath := ConfigFilePath(configDir, TokenFilename)
+
+	println("Debug: using clientid: ", ClientId);
 	return auth.NewFileSourceClient(ClientId, ClientSecret, tokenPath, authCodePrompt)
 }
 
