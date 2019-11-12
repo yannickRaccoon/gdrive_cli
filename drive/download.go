@@ -30,7 +30,7 @@ func (self *Drive) Download(args DownloadArgs) error {
 		return self.downloadRecursive(args)
 	}
 
-	f, err := self.service.Files.Get(args.Id).SupportsTeamDrives(true).Fields("id", "name", "size", "mimeType", "md5Checksum").Do()
+	f, err := self.service.Files.Get(args.Id).SupportsAllDrives(true).Fields("id", "name", "size", "mimeType", "md5Checksum").Do()
 	if err != nil {
 		if isBackendOrRateLimitError(err) && args.Try < MaxErrorRetries {
 			exponentialBackoffSleep(args.Try)
@@ -120,7 +120,7 @@ func (self *Drive) DownloadQuery(args DownloadQueryArgs) error {
 }
 
 func (self *Drive) downloadRecursive(args DownloadArgs) error {
-	f, err := self.service.Files.Get(args.Id).SupportsTeamDrives(true).Fields("id", "name", "size", "mimeType", "md5Checksum").Do()
+	f, err := self.service.Files.Get(args.Id).SupportsAllDrives(true).Fields("id", "name", "size", "mimeType", "md5Checksum").Do()
 	if err != nil {
 		if isBackendOrRateLimitError(err) && args.Try < MaxErrorRetries {
 			exponentialBackoffSleep(args.Try)
@@ -144,7 +144,7 @@ func (self *Drive) downloadBinary(f *drive.File, args DownloadArgs) (int64, int6
 	// Get timeout reader wrapper and context
 	timeoutReaderWrapper, ctx := getTimeoutReaderWrapperContext(args.Timeout)
 
-	res, err := self.service.Files.Get(f.Id).SupportsTeamDrives(true).Context(ctx).Download()
+	res, err := self.service.Files.Get(f.Id).SupportsAllDrives(true).Context(ctx).Download()
 	if err != nil {
 		if isTimeoutError(err) {
 			return 0, 0, fmt.Errorf("Failed to download file: timeout, no data was transferred for %v", args.Timeout)
@@ -161,6 +161,7 @@ func (self *Drive) downloadBinary(f *drive.File, args DownloadArgs) (int64, int6
 
 	// Path to file
 	fpath := filepath.Join(args.Path, f.Name)
+
 
 	if !args.Stdout {
 		fmt.Fprintf(args.Out, "Downloading %s -> %s\n", f.Name, fpath)
