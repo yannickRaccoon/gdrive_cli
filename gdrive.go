@@ -125,6 +125,11 @@ func main() {
 						OmitValue:   true,
 					},
 					cli.StringFlag{
+						Name:        "eq",
+						Patterns:    []string{"--eq"},
+						Description: "Download Extra Query",
+					},
+					cli.StringFlag{
 						Name:        "path",
 						Patterns:    []string{"--path"},
 						Description: "Download path",
@@ -180,6 +185,11 @@ func main() {
 						Patterns:    []string{"-r", "--recursive"},
 						Description: "Download directories recursively, documents will be skipped",
 						OmitValue:   true,
+					},
+					cli.StringFlag{
+						Name:        "eq",
+						Patterns:    []string{"--eq"},
+						Description: "Download Extra Query",
 					},
 					cli.StringFlag{
 						Name:        "path",
