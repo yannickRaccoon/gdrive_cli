@@ -19,6 +19,7 @@ type DownloadArgs struct {
 	Force     bool
 	Skip      bool
 	Recursive bool
+	RecursiveExtraQuery string
 	Delete    bool
 	Stdout    bool
 	Timeout   time.Duration
@@ -78,6 +79,7 @@ type DownloadQueryArgs struct {
 	Force     bool
 	Skip      bool
 	Recursive bool
+	RecursiveExtraQuery string
 	Try       int
 }
 
@@ -247,7 +249,7 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 
 func (self *Drive) downloadDirectory(parent *drive.File, args DownloadArgs) error {
 	listArgs := listAllFilesArgs{
-		query:  fmt.Sprintf("'%s' in parents", parent.Id),
+		query:  fmt.Sprintf("'%s' in parents %s", parent.Id, args.RecursiveExtraQuery),
 		fields: []googleapi.Field{"nextPageToken", "files(id,name)"},
 	}
 	files, err := self.listAllFiles(listArgs)
