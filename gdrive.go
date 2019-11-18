@@ -10,6 +10,7 @@ import (
 const Name = "gdrive"
 const Version = "2.1.1"
 
+const DefaultAsyncLimit = 1
 const DefaultMaxFiles = 30
 const DefaultMaxChanges = 100
 const DefaultNameWidth = 40
@@ -129,6 +130,18 @@ func main() {
 						Patterns:    []string{"--eq"},
 						Description: "Download Extra Query",
 					},
+					cli.BoolFlag{
+						Name:        "async",
+						Patterns:    []string{"--async"},
+						Description: "Download ASynchronously",
+						OmitValue:   true,
+					},
+					cli.IntFlag{
+						Name:        "limit",
+						Patterns:    []string{"--limit"},
+						Description:  fmt.Sprintf("Limit number of Async downloads, default: %d", DefaultAsyncLimit),
+						DefaultValue: DefaultAsyncLimit,
+					},
 					cli.StringFlag{
 						Name:        "path",
 						Patterns:    []string{"--path"},
@@ -190,6 +203,18 @@ func main() {
 						Name:        "eq",
 						Patterns:    []string{"--eq"},
 						Description: "Download Extra Query",
+					},
+					cli.BoolFlag{
+						Name:        "async",
+						Patterns:    []string{"--async"},
+						Description: "Download ASynchronously",
+						OmitValue:   true,
+					},
+					cli.IntFlag{
+						Name:        "limit",
+						Patterns:    []string{"--limit"},
+						Description:  fmt.Sprintf("Limit number of Async downloads, default: %d", DefaultAsyncLimit),
+						DefaultValue: DefaultAsyncLimit,
 					},
 					cli.StringFlag{
 						Name:        "path",
