@@ -2,12 +2,18 @@ package drive
 
 import (
 	"net/http"
+	"sync"
+	"time"
 
 	"google.golang.org/api/drive/v3"
 )
 
 type Drive struct {
-	service *drive.Service
+	service           *drive.Service
+	downloadStartUnix int64
+	downloadCount     int64
+	waitGroup         sync.WaitGroup
+	downloadErr       error
 }
 
 func New(client *http.Client) (*Drive, error) {
@@ -16,5 +22,10 @@ func New(client *http.Client) (*Drive, error) {
 		return nil, err
 	}
 
-	return &Drive{service}, nil
+	return &Drive{service, 0, 0, sync.WaitGroup{}, nil}, nil
+}
+
+func (d *Drive) ResetDownloadTime() {
+	d.downloadStartUnix = time.Now().Unix()
+	d.downloadCount = 0
 }
