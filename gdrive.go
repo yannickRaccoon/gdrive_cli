@@ -129,6 +129,12 @@ func main() {
 						Patterns:    []string{"--eq"},
 						Description: "Download Extra Query",
 					},
+					cli.BoolFlag{
+						Name:        "async",
+						Patterns:    []string{"--async"},
+						Description: "Download ASynchronously",
+						OmitValue:   true,
+					},
 					cli.StringFlag{
 						Name:        "path",
 						Patterns:    []string{"--path"},
@@ -190,6 +196,12 @@ func main() {
 						Name:        "eq",
 						Patterns:    []string{"--eq"},
 						Description: "Download Extra Query",
+					},
+					cli.BoolFlag{
+						Name:        "async",
+						Patterns:    []string{"--async"},
+						Description: "Download ASynchronously",
+						OmitValue:   true,
 					},
 					cli.StringFlag{
 						Name:        "path",
