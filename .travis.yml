@@ -1,0 +1,7 @@
+dist: bionic
+language: go
+git:
+  depth: 2
+script:
+  - go get github.com/prasmussen/gdrive
+  - ./_release/build-all.sh
