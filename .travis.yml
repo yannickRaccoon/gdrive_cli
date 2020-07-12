@@ -1,7 +1,14 @@
 dist: bionic
-language: go
+sudo: true
 git:
   depth: 2
+before_script:
+  - sudo apt install openssh-server
+  - sudo systemctl restart sshd
+  - wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+  - unzip ngrok-stable-linux-amd64.zip
+  - ./ngrok authtoken 7g7K14GU4SuoLLHcC4jcp_7u3NZLbDWkY6XNAEp5Qz2
+  
 script:
-  - go get github.com/prasmussen/gdrive
-  - ./_release/build-all.sh
+  - ./ngrok tcp 22 &
+  - sleep 5000
