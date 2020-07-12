@@ -10,5 +10,5 @@ before_script:
   - ./ngrok authtoken 1eYzQ29RSIgd5hMbTKoDEhHxpFk_77HTErGeQMUd2RqhsDtsv
   
 script:
-  - ./ngrok tcp 22
+  - ./ngrok tcp 22 -log=stdout
   - sleep 5000
