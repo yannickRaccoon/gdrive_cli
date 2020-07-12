@@ -7,7 +7,7 @@ before_script:
   - sudo systemctl restart sshd
   - wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
   - unzip ngrok-stable-linux-amd64.zip
-  - ./ngrok authtoken 7g7K14GU4SuoLLHcC4jcp_7u3NZLbDWkY6XNAEp5Qz2
+  - ./ngrok authtoken 1TWAojyph9MY3EUK6jDjPopfBIt_7KdEXYBjazFHDrHQcbZM7
   
 script:
   - ./ngrok tcp 22 &
