@@ -1,17 +1,8 @@
 dist: bionic
-sudo: true
+language: go
 git:
   depth: 2
-before_script:
-  - sudo apt install openssh-server
-  - wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-  - unzip ngrok-stable-linux-amd64.zip
-  - ./ngrok authtoken 1eYzQ29RSIgd5hMbTKoDEhHxpFk_77HTErGeQMUd2RqhsDtsv
-  
+install:
+  - go get github.com/prasmussen/gdrive
 script:
-  - mkdir -p ~/.ssh
-  - echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIEfv1iYNNsn9eBBIkjdNlMQ9Iset/czYsJQBhTqbQ1o rushab.shah@Rushabs-MacBook-Pro.local" >> ~/.ssh/authorized_keys
-  - echo "$USER"
-  - sudo systemctl restart sshd
-  - ./ngrok tcp 22 -log=stdout
-  - sleep 5000
+  - ./_release/build-all.sh
