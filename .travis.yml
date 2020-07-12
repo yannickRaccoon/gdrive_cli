@@ -1,0 +1,8 @@
+dist: bionic
+language: go
+git:
+  depth: 2
+install:
+  - go mod vendor
+script:
+  - ./_release/build-all.sh
