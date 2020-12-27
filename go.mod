@@ -1,10 +1,9 @@
-module github.com/petrpulc/gdrive
+module gdrive_cli
 
 go 1.15
 
 require (
 	cloud.google.com/go v0.74.0 // indirect
-	github.com/prasmussen/gdrive v0.0.0-20200728191437-31d0829c1807
 	github.com/sabhiram/go-gitignore v0.0.0-20201211210132-54b8a0bf510f
 	github.com/soniakeys/graph v0.0.0
 	github.com/stretchr/testify v1.6.1 // indirect
