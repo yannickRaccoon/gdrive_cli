@@ -14,8 +14,8 @@ import (
 	"github.com/DroidFreak32/gdrive_cli/drive"
 )
 
-const ClientId = "367116221053-7n0vf5akeru7on6o2fjinrecpdoe99eg.apps.googleusercontent.com"
-const ClientSecret = "1qsNodXNaWq1mQuBjUjmvhoO"
+var ClientId string
+var ClientSecret string
 const TokenFilename = "token_v2.json"
 const DefaultCacheFileName = "file_cache.json"
 
