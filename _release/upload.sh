@@ -1,13 +1,11 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 
 # Grab application version
-VERSION=$(_release/bin/gdrive-osx-x64 version | awk 'NR==1 {print $2}')
+VERSION=$(_release/bin/gdrive-linux-x64 version | awk 'NR==1 {print $2}')
 
 declare -a filenames
 filenames=(
     "gdrive-osx-x64"
-    "gdrive-osx-386"
-    "gdrive-osx-arm"
     "gdrive-linux-x64"
     "gdrive-linux-386"
     "gdrive-linux-rpi"
@@ -68,10 +66,10 @@ descriptions=(
 
 # Markdown helpers
 HEADER='### Downloads
-| Filename               | Version | Description        | Shasum                                   |
-|:-----------------------|:--------|:-------------------|:-----------------------------------------|'
+| Filename               | Version | Description        | md5sum                           |
+|:-----------------------|:--------|:-------------------|:---------------------------------|'
 
-ROW_TEMPLATE="| [{{name}}]({{url}}) | $VERSION | {{description}} | {{sha}} |"
+ROW_TEMPLATE="| [{{name}}]({{url}}) | $VERSION | {{description}} | {{MD5}} |"
 
 
 # Print header
@@ -81,10 +79,10 @@ for name in ${filenames[@]}; do
     bin_path="_release/bin/$name"
 
     # Upload file
-    url=$(gdrive upload --share $bin_path | awk '/https/ {print $7}')
+    url=$(upload-guthub-release-asset.sh $bin_path |& grep api.github.com | jq -r .browser_download_url)
 
-    # Shasum
-    sha="$(shasum -b $bin_path | awk '{print $1}')"
+    # md5sum
+    MD5="$(md5sum -b $bin_path | awk '{print $1}')"
 
     # Filename
     name="$(basename $bin_path)"
@@ -93,7 +91,7 @@ for name in ${filenames[@]}; do
     row=${ROW_TEMPLATE//"{{name}}"/$name}
     row=${row//"{{url}}"/$url}
     row=${row//"{{description}}"/${descriptions[$name]}}
-    row=${row//"{{sha}}"/$sha}
+    row=${row//"{{MD5}}"/$MD5}
 
     # Print row
     echo "$row"
