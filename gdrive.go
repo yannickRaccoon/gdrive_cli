@@ -8,7 +8,7 @@ import (
 )
 
 const Name = "gdrive"
-const Version = "2.1.1"
+const Version = "2.2.9"
 
 const DefaultAsyncLimit = 1
 const DefaultMaxFiles = 30
