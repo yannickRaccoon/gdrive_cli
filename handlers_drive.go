@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/msfjarvis/gdrive/auth"
-	"github.com/msfjarvis/gdrive/cli"
-	"github.com/msfjarvis/gdrive/drive"
+	"github.com/DroidFreak32/gdrive_cli/auth"
+	"github.com/DroidFreak32/gdrive_cli/cli"
+	"github.com/DroidFreak32/gdrive_cli/drive"
 
 	"golang.org/x/oauth2/google"
 	gd "google.golang.org/api/drive/v3"
