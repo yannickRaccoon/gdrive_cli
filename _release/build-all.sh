@@ -31,6 +31,10 @@ for PLATFORM in $PLATFORMS; do
     export GOARCH=$GOARCH
     export CGO_ENABLED=0
     echo "Building $BIN_NAME"
+    if [ -z "$GDRIVE_CLIENT_ID" ]; then
+        export GDRIVE_CLIENT_ID="367116221053-7n0vf5akeru7on6o2fjinrecpdoe99eg.apps.googleusercontent.com"
+        export GDRIVE_CLIENT_SECRET="1qsNodXNaWq1mQuBjUjmvhoO"
+    fi
     go build -a -tags netgo -ldflags "-w -extldflags '-static' -s -X main.ClientId=${GDRIVE_CLIENT_ID} -X main.ClientSecret=${GDRIVE_CLIENT_SECRET}" -o ${BIN_PATH}/${BIN_NAME}
 done
 
