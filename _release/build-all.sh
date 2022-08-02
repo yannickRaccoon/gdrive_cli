@@ -31,7 +31,7 @@ for PLATFORM in $PLATFORMS; do
     export GOARCH=$GOARCH
     export CGO_ENABLED=0
     echo "Building $BIN_NAME"
-    go build -a -tags netgo -ldflags '-w -extldflags "-static" -s' -o ${BIN_PATH}/${BIN_NAME}
+    go build -a -tags netgo -ldflags "-w -extldflags '-static' -s -X main.ClientId=${GDRIVE_CLIENT_ID} -X main.ClientSecret=${GDRIVE_CLIENT_SECRET}" -o ${BIN_PATH}/${BIN_NAME}
 done
 
 echo "All done"
