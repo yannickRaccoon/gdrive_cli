@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/DroidFreak32/gdrive_cli/drive"
+	"github.com/yannickRaccoon/gdrive_cli/drive"
 )
 
 const MinCacheFileSize = 5 * 1024 * 1024
