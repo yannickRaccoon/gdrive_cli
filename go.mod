@@ -1,4 +1,4 @@
-module github.com/DroidFreak32/gdrive_cli
+module github.com/yannickRaccoon/gdrive_cli
 
 go 1.16
 
